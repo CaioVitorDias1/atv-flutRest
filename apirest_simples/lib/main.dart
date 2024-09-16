@@ -24,7 +24,7 @@ class MyAppState extends State<MainApp>{
       final jsonResponse = json.decode(response.body);
 
       setState(() {
-        dataList = jsonResponse['data'];
+        dataList = jsonResponse;
       });
     } else {
       print("request failed with error: ${response.statusCode}");
@@ -47,11 +47,12 @@ class MyAppState extends State<MainApp>{
         body: ListView.builder(
           itemCount: dataList.length,
           itemBuilder: (BuildContext context, int index) {
+            Color colors = (index % 2 == 0)? Colors.blue : Colors.yellow;
             final item = dataList[index];
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: colors,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: ListTile(
@@ -59,9 +60,18 @@ class MyAppState extends State<MainApp>{
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Age: ${item['age']}'),
-                    Text('State: ${item['state']}'),
-                    Text('Adress: ${item['adress']}'),
+                    Text('ID: ${item['id']}'),
+                    Text('Name: ${item['name']}'),
+                    Text('Username: ${item['username']}'),
+                    Text('Email: ${item['email']}'),
+                    Text('Address: '),
+                      Text('Street: ${item['address']['street']}'),
+                      Text('Suite: ${item['address']['suite']}'),
+                      Text('City: ${item['address']['city']}'),
+                      Text('Zipcode: ${item['address']['zipcode']}'),
+                      Text('Geo: '),
+                        Text('Lat: ${item['address']['geo']['lat']}'),
+                        Text('Lng: ${item['address']['geo']['lng']}'),
                   ],),
               ),
             );
